@@ -1,0 +1,11 @@
+<div class="product-detail">
+    <h2>{{ product.title }}</h2>
+    <img [src]="product.images" alt="{{ product.title }}" class="w-full object-cover mb-4 rounded-lg">
+    <p>{{ product.description }}</p>
+    <p class="font-bold text-gray-900">Price: {{ product.price }}</p>
+    <div class="flex justify-between mt-4">
+      <button class="border border-blue-500 text-blue-500 py-1 px-3 rounded">View</button>
+      <button class="bg-blue-500 text-white py-1 px-3 rounded">Add to Cart</button>
+    </div>
+  </div>
+  

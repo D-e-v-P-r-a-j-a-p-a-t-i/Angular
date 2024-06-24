@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Reset some basic styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Set the basic layout */
+  html, body, #root {
+    height: 100%;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    background-color: rgb(212, 210, 210);
+  }
+  
+  /* Ensure the app takes full height */
+  #root {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  footer {
+    bottom: 0;
+  }
+  
+  /* Main content area */
+  main {
+    flex: 1;
+    margin-top: 60px; /* Adjust this to the height of your header */
+    margin-bottom: 60px; /* Adjust this to the height of your footer */
+    padding: 1rem;
+    overflow-y: auto;
+  }
+  
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Optional: Hide scrollbar for other browsers */
+  html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+  }
+  
+  

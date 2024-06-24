@@ -1,0 +1,18 @@
+label{
+  margin: 5px auto;
+}
+
+input[type=radio] {
+  width: 1rem;
+  height: 1rem;
+  padding: 0.2rem !important;
+  background-color: #f3f4f6;
+  border-radius: 100%;
+  appearance: none;
+  outline: none;
+  transition: background-color .7s, box-shadow .3s;
+}
+input[type=radio]:checked {
+  background-color: var(--color-secondary);
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.3);
+}

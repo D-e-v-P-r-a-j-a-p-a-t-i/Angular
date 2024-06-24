@@ -1,0 +1,32 @@
+/* Custom styles for the product list component */
+.loader {
+    border-top-color: #3498db;
+    animation: spin 1.5s linear infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .product img {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .product img:hover {
+    transform: scale(1.05);
+  }
+  
+  .product {
+    transition: box-shadow 0.2s ease-in-out;
+  }
+  
+  .product:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  input[type="number"] {
+    text-align: center;
+  }
+  

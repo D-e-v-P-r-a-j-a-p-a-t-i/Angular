@@ -1,0 +1,17 @@
+<div *ngIf="cartItems.length > 0; else emptyCart">
+    <div *ngFor="let item of cartItems; let i = index" class="cart-item">
+      <div>{{ item.name }}</div>
+      <div>Price: ${{ item.price }}</div>
+      <div>Quantity: <input type="number" [(ngModel)]="item.quantity" (change)="updateQuantity(i, item.quantity)"></div>
+      <div>Total: ${{ item.price * item.quantity }}</div>
+      <button (click)="removeItem(i)">Remove</button>
+    </div>
+    <div class="cart-total">
+      <h3>Cart Total: ${{ getTotal() }}</h3>
+      <button>Checkout</button>
+    </div>
+  </div>
+  <ng-template #emptyCart>
+    <p>Your cart is empty.</p>
+  </ng-template>
+  

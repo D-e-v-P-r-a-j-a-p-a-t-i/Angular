@@ -1,0 +1,26 @@
+<mat-toolbar color="primary" class="justify-between fixed">
+    <span class="text-xl font-bold">E-Commerce</span>
+    <button mat-icon-button class="block md:hidden" (click)="toggleMobileMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <nav class="hidden md:flex space-x-4">
+      <a routerLink="/" routerLinkActive="active" mat-button>Home</a>
+      <a routerLink="/products" routerLinkActive="active" mat-button>Products</a>
+      <a routerLink="/cart" routerLinkActive="active" mat-button>Cart</a>
+      <button mat-button (click)="logout()">Logout</button>
+    </nav>
+  </mat-toolbar>
+  
+  <!-- Mobile Menu Drawer -->
+  <mat-drawer-container *ngIf="mobileMenuOpen">
+    <mat-drawer mode="over" opened="true" (closedStart)="closeMobileMenu()">
+      <mat-nav-list (click)="closeMobileMenu()">
+        <a mat-list-item routerLink="/" routerLinkActive="active">Home</a>
+        <a mat-list-item routerLink="/products" routerLinkActive="active">Products</a>
+        <a mat-list-item routerLink="/cart" routerLinkActive="active">Cart</a>
+        <mat-divider></mat-divider>
+        <a mat-list-item (click)="logout()">Logout</a>
+      </mat-nav-list>
+    </mat-drawer>
+  </mat-drawer-container>
+  

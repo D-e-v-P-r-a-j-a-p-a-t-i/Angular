@@ -1,0 +1,9 @@
+input{
+  border-radius: 0;
+  color: var(--color-secondary) !important;
+  font-weight: 500;
+}
+label{
+  margin: 5px auto;
+}
+
