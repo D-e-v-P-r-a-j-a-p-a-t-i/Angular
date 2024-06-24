@@ -19,8 +19,9 @@ export class UserService {
 
   generateToken(email: string, password: string): Observable<any> {
     console.log("second");
-
-    return this.http.post<any>(`${environment.apiUrl}/login`, { email, password });
+    console.log(`${this.apiUrl}/login`);
+    
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password });
   }
 
   loginUser(token: any) {
@@ -29,6 +30,24 @@ export class UserService {
   }
 
   storeUser(user: User): Observable<void> {
-    return this.http.post<void>(`${environment.apiUrl}/addUser`, user);
+    return this.http.post<void>(`${this.apiUrl}/addUser`, user);
+  }
+
+  isLoggedIn(): boolean {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.log('No token found');
+      return false;
+    }
+
+    return true;
+  }
+
+  logoutUser() {
+    if (confirm('Are you sure to Logout?')) {
+      localStorage.removeItem('token');
+      console.log(localStorage.getItem('token'));
+    }
   }
 }

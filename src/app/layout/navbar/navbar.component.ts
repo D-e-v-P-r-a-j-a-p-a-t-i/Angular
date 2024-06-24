@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { logout } from '../../auth/auth.action'; // Make sure the path is correct
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -29,7 +30,7 @@ import { logout } from '../../auth/auth.action'; // Make sure the path is correc
 export class NavbarComponent {
   mobileMenuOpen = false;
 
-  constructor(private router: Router, private store: Store) {}
+  constructor(private router: Router, private store: Store, private userService: UserService) {}
 
   toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
@@ -40,9 +41,7 @@ export class NavbarComponent {
   }
 
   logout() {
-    if (confirm('Are you sure you want to logout?')) {
-      this.store.dispatch(logout());
+      this.userService.logoutUser();
       this.router.navigate(['/login']);
-    }
   }
 }
