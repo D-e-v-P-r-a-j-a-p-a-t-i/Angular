@@ -1,17 +1,24 @@
-<div *ngIf="cartItems.length > 0; else emptyCart">
-    <div *ngFor="let item of cartItems; let i = index" class="cart-item">
-      <div>{{ item.name }}</div>
-      <div>Price: ${{ item.price }}</div>
-      <div>Quantity: <input type="number" [(ngModel)]="item.quantity" (change)="updateQuantity(i, item.quantity)"></div>
-      <div>Total: ${{ item.price * item.quantity }}</div>
-      <button (click)="removeItem(i)">Remove</button>
+<div *ngIf="cartItems.length > 0; else emptyCart" class="cart-container">
+  <div *ngFor="let item of cartItems; let i = index" class="cart-item flex justify-between items-center p-4 border-b border-gray-300">
+    <div class="item-image w-32 h-32">
+      <img [src]="item.productId.images" alt="{{ item.productId.title }}" class="w-full h-full object-cover rounded-md">
     </div>
-    <div class="cart-total">
-      <h3>Cart Total: ${{ getTotal() }}</h3>
-      <button>Checkout</button>
+    <div class="item-info flex-1 ml-4">
+      <h3 class="text-lg font-bold">{{ item.productId.title }}</h3>
+      <p class="text-gray-600">Price: ${{ item.productId.price }}</p>
+      <div class="quantity-control flex items-center mt-2">
+        <label for="quantity-{{i}}" class="mr-2">Quantity:</label>
+        <input id="quantity-{{i}}" type="number" [(ngModel)]="item.quantity" (change)="updateQuantity(i, item.quantity)" min="1" max="10" class="text-center w-16 border rounded">
+      </div>
+      <p class="text-gray-700 mt-2">Total: ${{ item.productId.price * item.quantity }}</p>
     </div>
+    <button class=" bg-red-500 text-white py-2 px-4 rounded" (click)="removeItem(item._id)">Remove</button>
   </div>
-  <ng-template #emptyCart>
-    <p>Your cart is empty.</p>
-  </ng-template>
-  
+  <div class="cart-total p-4">
+    <h2 class="text-xl font-bold">Cart Total: ${{ getTotal() }}</h2>
+    <button class="checkout-btn bg-blue-500 text-white py-2 px-4 rounded mt-4" (click)="checkout()">Checkout</button>
+  </div>
+</div>
+<ng-template #emptyCart>
+  <p class="empty-cart-message text-center text-gray-500">Your cart is empty.</p>
+</ng-template>

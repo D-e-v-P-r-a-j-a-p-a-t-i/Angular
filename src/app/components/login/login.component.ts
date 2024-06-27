@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -28,14 +29,14 @@ export class LoginComponent {
   loginSubmitted() {
     if (this.loginForm.valid) {
       const formData = this.loginForm.value;
-      console.log("login after any");
-      
+
       this.userService.generateToken(formData.email, formData.password).subscribe(
-        
+
         (res: any) => {
           console.log(res.token);
           if (this.userService.loginUser(res.token)) {
-            this.router.navigate(['/']); // Navigate to '/' after successful login
+            console.log(jwtDecode(res.token))
+            this.router.navigate(['/']);
           }
         },
         error => {

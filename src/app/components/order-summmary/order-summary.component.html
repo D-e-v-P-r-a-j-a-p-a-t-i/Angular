@@ -1,0 +1,14 @@
+<div class="order-summary">
+  <h2>Order Summary</h2>
+  <p>Name: {{ orderData.name }}</p>
+  <p>Address: {{ orderData.address }}</p>
+  <p>Payment Method: {{ orderData.payment }}</p>
+  <p>Total Amount: ${{ orderData.totalAmount }}</p>
+  <ul>
+    <li *ngFor="let item of orderData.products">
+      <img [src]="item.product.images" alt="{{ item.product.title }}" width="100" height="100">
+      <p>{{ item.product.title }} - Price: ${{ item.product.price }} | Quantity: {{ item.quantity }}</p>
+    </li>
+  </ul>
+  <button (click)="handleOkClick()">OK</button>
+</div>

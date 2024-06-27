@@ -1,1 +1,6 @@
-<p>checkout works!</p>
+<div *ngIf="orderData; else checkoutForm" class="order-summary">
+  <app-order-summary [orderData]="orderData" (handleClose)="handleOkClick()"></app-order-summary>
+</div>
+<ng-template #checkoutForm>
+  <app-checkout-form (onSubmit)="handleFormSubmit($event)"></app-checkout-form>
+</ng-template>

@@ -11,19 +11,25 @@ import { authGuard } from './guard/loginAuth.guard';
 import { dashboardAuthGuard } from './guard/dashboard-auth.guard';
 
 export const routes: Routes = [
-    {
-        path: '',
-        component: MainLayoutComponent,
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      { path: '', component: HomeComponent },
+      { path: 'products', component: ProductListComponent },
+      { path: 'products/:id', component: ProductDetailComponent },
+      {
+        path: 'cart',
+        component: CartComponent,
         canActivate: [authGuard],
-        canDeactivate: [dashboardAuthGuard],
-        children: [
-          { path: '', component: HomeComponent },
-          { path: 'products', component: ProductListComponent },
-          { path: 'products/:id', component: ProductDetailComponent },
-          { path: 'cart', component: CartComponent },
-          { path: 'checkout', component: CheckoutComponent },
-        ],
       },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-  ];
+      {
+        path: 'checkout',
+        component: CheckoutComponent,
+        canActivate: [authGuard],
+      },
+    ],
+  },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+];

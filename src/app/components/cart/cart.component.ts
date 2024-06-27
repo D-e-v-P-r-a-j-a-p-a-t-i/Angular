@@ -1,32 +1,40 @@
-// cart.component.ts
-
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
-import { CartItem } from '../../interface/Cart'; // Ensure the correct path to CartItem interface
+import { CartItem } from '../../interface/Cart';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
+  imports: [FormsModule, CommonModule],
   standalone: true,
-  imports:[FormsModule, CommonModule],
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
   cartItems: CartItem[] = [];
+  private cartId: string = '';
 
-  constructor(private cartService: CartService) { }
+  constructor(
+    private cartService: CartService,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // Example initialization, you may want to fetch actual data from the server here
-    this.loadCart('user-id-123'); // Replace with actual user ID or fetch dynamically
+    this.loadCart();
   }
 
-  loadCart(userId: string): void {
-    this.cartService.getCart(userId).subscribe(
+  loadCart(): void {
+    this.cartService.getCart().subscribe(
       (response) => {
-        this.cartItems = response.items; // Adjust based on your API response structure
+        if (response && response.products) {
+          this.cartId = response._id;
+          this.cartItems = response.products;
+        }
       },
       (error) => {
         console.error('Error loading cart:', error);
@@ -35,35 +43,47 @@ export class CartComponent implements OnInit {
   }
 
   getTotal(): number {
-    return this.cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    return this.cartService.getTotal(this.cartItems);
   }
 
-  removeItem(index: number): void {
-    const itemId = this.cartItems[index].id; // Assuming you have an 'id' property on CartItem
-    this.cartService.deleteCartItem('user-id-123', itemId+'').subscribe(
-      () => {
-        this.cartItems.splice(index, 1);
-      },
-      (error) => {
-        console.error('Error deleting item:', error);
+  removeItem(itemId: string): void {
+    const dialogRef = this.dialog.open(DeleteConfirmComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.cartService.deleteCartItem(this.cartId, itemId).subscribe(
+          () => {
+            this.loadCart();
+          },
+          (error) => {
+            console.error('Error deleting item:', error);
+          }
+        );
+      } else {
+        console.log('Deletion canceled or result was not true.');
       }
-    );
+    });
   }
 
   updateQuantity(index: number, quantity: number): void {
     const item = this.cartItems[index];
     if (quantity > 0) {
       item.quantity = quantity;
-      this.cartService.addToCart(item).subscribe(
-        () => {
-          // Cart updated successfully
-        },
-        (error) => {
-          console.error('Error updating quantity:', error);
-        }
-      );
+      // Uncomment and implement addToCart in CartService if needed
+      // this.cartService.addToCart(item.productId, quantity).subscribe(
+      //   () => {
+      //     // Cart updated successfully
+      //   },
+      //   (error) => {
+      //     console.error('Error updating quantity:', error);
+      //   }
+      // );
     } else {
-      this.removeItem(index);
+      this.removeItem(item._id);
     }
+  }
+
+  checkout(): void {
+    this.router.navigateByUrl('/checkout');
   }
 }

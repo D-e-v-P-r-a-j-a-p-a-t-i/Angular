@@ -1,68 +1,19 @@
-<div class="container mx-auto py-8">
-  <div *ngIf="loading" class="flex justify-center items-center">
-    <div
-      class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32 mb-4"
-    ></div>
-  </div>
-  <div *ngIf="!loading && products.length === 0" class="text-center">
-    <p class="text-gray-700">No products found.</p>
-  </div>
-  <div
-    *ngIf="!loading && products.length > 0"
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
-  >
-    <div
-      *ngFor="let product of products"
-      class="product bg-white shadow-md rounded-lg p-4 flex flex-col justify-between"
-    >
-      <img
-        [src]="product.images"
-        alt="{{ product.title }}"
-        class="w-full h-48 object-cover rounded-md mb-4"
-      />
-      <div class="flex-grow">
-        <h3 class="text-lg font-semibold mb-2">{{ product.title }}</h3>
-        <div class="max-h-16 overflow-hidden text-ellipsis">
-          <p class="text-gray-700 mb-4">{{ product.description }}</p>
-        </div>
-        <p class="text-gray-900 font-bold mb-4">
-          Price: {{ product.price | currency }}
-        </p>
-        <div class="flex items-center mt-2">
-          <button
-            class="bg-blue-500 text-white p-1 w-8 rounded-full"
-            (click)="decrementQuantity(product)"
-          >
-            -
-          </button>
-          <input
-            type="number"
-            min="1"
-            max="10"
-            [(ngModel)]="product.quantity"
-            class="w-16 mx-2 text-center border rounded"
-          />
-          <button
-            class="bg-blue-500 text-white p-1 w-8 rounded-full"
-            (click)="incrementQuantity(product)"
-          >
-            +
-          </button>
-        </div>
+<!-- product-list.component.html -->
+<div *ngIf="loading" class="loading">Loading...</div>
+<div *ngIf="!loading">
+  <div class="product-list flex flex-wrap justify-center">
+    <div *ngFor="let product of products" class="product-card flex flex-col justify-between m-4 p-4 border rounded-lg shadow-lg">
+      <img [src]="product.images" (click)="viewProduct(product._id)" alt="{{ product.title }}" class="cursor-pointer w-48 h-48 object-cover mb-4 rounded-md">
+      <h5 class="text-lg font-bold">{{ product.title }}</h5>
+      <p class="text-gray-600 mb-4">{{ product.description }}</p>
+      <div class="quantity-controls flex items-center mb-4">
+        <button (click)="decrementQuantity(product._id)" class="bg-gray-200 p-2 rounded-l hover:bg-gray-300 focus:outline-none">-</button>
+        <input type="number" [(ngModel)]="quantities[product._id]" min="1" max="10" class="text-center w-12 p-2 border-t border-b"/>
+        <button (click)="incrementQuantity(product._id)" class="bg-gray-200 p-2 rounded-r hover:bg-gray-300 focus:outline-none">+</button>
       </div>
-      <div class="flex justify-between mt-4">
-        <button
-          class="border border-blue-500 text-blue-500 py-1 px-3 rounded"
-          (click)="viewProduct(product._id)"
-        >
-          View
-        </button>
-        <button
-          class="bg-blue-500 text-white py-1 px-3 rounded"
-          (click)="addToCart(product)"
-        >
-          Add to Cart
-        </button>
+      <div class="flex">
+        <button (click)="addToCart(product._id)" class="add-to-cart-btn bg-blue-500 text-white py-2 px-4 rounded mr-2">Add to Cart</button>
+        <button (click)="viewProduct(product._id)" class="view-btn bg-gray-500 text-white py-2 px-4 rounded">View</button>
       </div>
     </div>
   </div>

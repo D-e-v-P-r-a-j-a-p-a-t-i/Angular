@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="justify-between fixed">
+<mat-toolbar color="primary" class="navbar justify-between fixed">
     <span class="text-xl font-bold">E-Commerce</span>
     <button mat-icon-button class="block md:hidden" (click)="toggleMobileMenu()">
       <mat-icon>menu</mat-icon>
@@ -10,7 +10,7 @@
       <button mat-button (click)="logout()">Logout</button>
     </nav>
   </mat-toolbar>
-  
+
   <!-- Mobile Menu Drawer -->
   <mat-drawer-container *ngIf="mobileMenuOpen">
     <mat-drawer mode="over" opened="true" (closedStart)="closeMobileMenu()">
@@ -23,4 +23,3 @@
       </mat-nav-list>
     </mat-drawer>
   </mat-drawer-container>
-  

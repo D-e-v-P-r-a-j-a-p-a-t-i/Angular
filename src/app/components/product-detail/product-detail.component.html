@@ -1,11 +1,27 @@
-<div class="product-detail">
-    <h2>{{ product.title }}</h2>
-    <img [src]="product.images" alt="{{ product.title }}" class="w-full object-cover mb-4 rounded-lg">
-    <p>{{ product.description }}</p>
-    <p class="font-bold text-gray-900">Price: {{ product.price }}</p>
-    <div class="flex justify-between mt-4">
-      <button class="border border-blue-500 text-blue-500 py-1 px-3 rounded">View</button>
-      <button class="bg-blue-500 text-white py-1 px-3 rounded">Add to Cart</button>
+<div
+  class="product-detail w-1/2 container mx-auto p-6 bg-white rounded-lg shadow-md flex flex-row gap-8"
+  *ngIf="product"
+>
+  <img
+    [src]="product.images"
+    alt="{{ product.title }}"
+    class="product-image w-72 h-72 object-cover rounded-lg"
+  />
+  <div class="flex flex-col justify-between">
+    <div>
+      <h2 class="text-2xl font-bold mb-4">{{ product.title }}</h2>
+      <div>
+        <p class="text-gray-700 mb-4">{{ product.description }}</p>
+        <p class="product-price text-xl font-semibold text-gray-900 mb-4">
+          Price: ${{ product.price }}
+        </p>
+      </div>
     </div>
+    <button
+      class="w-1/2 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300 ease-in-out"
+      (click)="addToCart()"
+    >
+      Add to Cart
+    </button>
   </div>
-  
+</div>
