@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CheckoutFormComponent } from '../checkout-form/checkout-form.component';
 import { OrderSummaryComponent } from '../order-summmary/order-summary.component';
+import { CheckoutFormComponent } from '../checkout-form/checkout-form.component';
 
 @Component({
   selector: 'app-checkout',
@@ -20,6 +20,7 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void { }
 
   handleFormSubmit(data: any): void {
+    console.log(data)
     this.cartService.placeOrder(data).subscribe(
       (result: any) => {
         console.log(result);

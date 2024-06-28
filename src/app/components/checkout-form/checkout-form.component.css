@@ -2,13 +2,14 @@ input[type=radio] {
   width: 1rem;
   height: 1rem;
   padding: 0.2rem !important;
-  background-color: #cfd0d1;
+  background-color: white;
   border-radius: 100%;
   appearance: none;
   outline: none;
-  transition: background-color .7s, box-shadow .3s;
+  transition: background-color 0.7s, box-shadow 0.3s;
 }
+
 input[type=radio]:checked {
-  background-color: #3b82f6;
-  box-shadow: 0 0 0 4px rgba(131, 175, 242, 0.3);
+  background-color: rgba(205, 220, 243, 0.249);
+  box-shadow: 1px 1px;
 }

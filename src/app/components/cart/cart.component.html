@@ -1,24 +1,86 @@
 <div *ngIf="cartItems.length > 0; else emptyCart" class="cart-container">
-  <div *ngFor="let item of cartItems; let i = index" class="cart-item flex justify-between items-center p-4 border-b border-gray-300">
+  <div
+    *ngFor="let item of cartItems; let i = index"
+    class="cart-item flex justify-between items-center p-4 border-b border-gray-300"
+  >
     <div class="item-image w-32 h-32">
-      <img [src]="item.productId.images" alt="{{ item.productId.title }}" class="w-full h-full object-cover rounded-md">
+      <img
+        [src]="item.productId.images"
+        alt="{{ item.productId.title }}"
+        class="w-full h-full object-cover rounded-md"
+      />
     </div>
     <div class="item-info flex-1 ml-4">
       <h3 class="text-lg font-bold">{{ item.productId.title }}</h3>
       <p class="text-gray-600">Price: ${{ item.productId.price }}</p>
       <div class="quantity-control flex items-center mt-2">
-        <label for="quantity-{{i}}" class="mr-2">Quantity:</label>
-        <input id="quantity-{{i}}" type="number" [(ngModel)]="item.quantity" (change)="updateQuantity(i, item.quantity)" min="1" max="10" class="text-center w-16 border rounded">
+        <button
+          (click)="decrementQuantity(i)"
+          class="bg-gray-200 p-2 rounded-l hover:bg-gray-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-3"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+          </svg>
+        </button>
+        <input
+          id="quantity-{{ i }}"
+          type="text"
+          [(ngModel)]="item.quantity"
+          (change)="updateQuantity(i, item.quantity)"
+          min="1"
+          max="10"
+          class="text-center border-t border-b h-7 rounded-none w-10"
+        />
+        <button
+          (click)="incrementQuantity(i)"
+          class="bg-gray-200 p-2 rounded-r hover:bg-gray-300 text-lg"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-3"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 4.5v15m7.5-7.5h-15"
+            />
+          </svg>
+        </button>
       </div>
-      <p class="text-gray-700 mt-2">Total: ${{ item.productId.price * item.quantity }}</p>
+      <p class="text-gray-700 mt-2">
+        Total: ${{ item.productId.price * item.quantity }}
+      </p>
     </div>
-    <button class=" bg-red-500 text-white py-2 px-4 rounded" (click)="removeItem(item._id)">Remove</button>
+    <button
+      class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded"
+      (click)="removeItem(item._id)"
+    >
+      Remove
+    </button>
   </div>
   <div class="cart-total p-4">
     <h2 class="text-xl font-bold">Cart Total: ${{ getTotal() }}</h2>
-    <button class="checkout-btn bg-blue-500 text-white py-2 px-4 rounded mt-4" (click)="checkout()">Checkout</button>
+    <button
+      class="checkout-btn bg-blue-500 text-white py-2 px-4 rounded mt-4"
+      (click)="checkout()"
+    >
+      Checkout
+    </button>
   </div>
 </div>
 <ng-template #emptyCart>
-  <p class="empty-cart-message text-center text-gray-500">Your cart is empty.</p>
+  <p class="empty-cart-message text-center text-gray-500">
+    Your cart is empty.
+  </p>
 </ng-template>

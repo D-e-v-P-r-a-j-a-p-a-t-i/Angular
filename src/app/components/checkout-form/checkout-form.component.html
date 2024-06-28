@@ -1,70 +1,81 @@
-<form
-  (ngSubmit)="handleSubmit()"
-  #checkoutForm="ngForm"
-  class="checkout-form max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
->
-  <div class="mb-4">
-    <label for="name" class="block text-gray-700 text-sm font-bold mb-2"
-      >Name</label
-    >
-    <input
-      type="text"
-      id="name"
-      name="name"
-      [(ngModel)]="name"
-      required
-      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-    />
-  </div>
-  <div class="mb-4">
-    <label for="address" class="block text-gray-700 text-sm font-bold mb-2"
-      >Address</label
-    >
-    <input
-      type="text"
-      id="address"
-      name="address"
-      [(ngModel)]="address"
-      required
-      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-    />
-  </div>
-  <div class="mb-6">
-    <fieldset class="mb-4">
-      <legend class="block text-gray-700 text-sm font-bold mb-2">
-        Payment Method
-      </legend>
-      <div class="flex items-center mb-2">
-        <input
-          type="radio"
-          id="paymentCOD"
-          name="payment"
-          [(ngModel)]="payment"
-          value="COD"
-          class="mr-2 leading-tight text-gray-700"
-        />
-        <label for="paymentCOD" class="text-sm">Cash on Delivery</label>
+<div class="flex justify-center">
+  <form
+    (ngSubmit)="handleSubmit()"
+    [formGroup]="checkoutForm"
+    class="checkout-form w-1/4 bg-slate-700 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4"
+    novalidate
+  >
+    <div class="mb-4">
+      <label for="name" class="block text-slate-200 text-lg mb-2">Name</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none focus:shadow-outline"
+      />
+      <div *ngIf="checkoutForm.get('name')?.invalid && (checkoutForm.get('name')?.dirty || checkoutForm.get('name')?.touched)" class="text-red-500 p-1 text-sm mt-1 rounded-sm">
+        <div *ngIf="checkoutForm.get('name')?.errors?.['required']">Name is required.</div>
+        <div *ngIf="checkoutForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters.</div>
+        <div *ngIf="checkoutForm.get('name')?.errors?.['maxlength']">Name cannot exceed 50 characters.</div>
       </div>
-      <div class="flex items-center">
-        <input
-          type="radio"
-          id="paymentCheque"
-          name="payment"
-          [(ngModel)]="payment"
-          value="Cheque"
-          class="mr-2 leading-tight text-gray-700"
-        />
-        <label for="paymentCheque" class="text-sm">Cheque</label>
+    </div>
+    <div class="mb-4">
+      <label for="address" class="block text-slate-200 text-lg mb-2">Address</label>
+      <input
+        type="text"
+        id="address"
+        formControlName="address"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none focus:shadow-outline"
+      />
+      <div *ngIf="checkoutForm.get('address')?.invalid && (checkoutForm.get('address')?.dirty || checkoutForm.get('address')?.touched)" class="text-red-500 p-1 text-sm mt-1 rounded-sm">
+        <div *ngIf="checkoutForm.get('address')?.errors?.['required']">Address is required.</div>
+        <div *ngIf="checkoutForm.get('address')?.errors?.['minlength']">Address must be at least 5 characters.</div>
+        <div *ngIf="checkoutForm.get('address')?.errors?.['maxlength']">Address cannot exceed 100 characters.</div>
       </div>
-    </fieldset>
-  </div>
-  <div class="flex items-center justify-between">
-    <button
-      type="submit"
-      [disabled]="!checkoutForm.valid"
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-    >
-      Submit
-    </button>
-  </div>
-</form>
+    </div>
+    <div class="mb-6">
+      <fieldset class="mb-4">
+        <legend class="block text-slate-200 text-lg mb-2">Payment Method</legend>
+        <div class="flex items-center mb-2">
+          <input
+            type="radio"
+            id="paymentCOD"
+            formControlName="payment"
+            value="Cash On Delivery"
+            class="mr-2 leading-tight text-slate-700 checked:bg-slate-50 p-4"
+          />
+          <label for="paymentCOD" class="text-slate-200 text-sm">Cash on Delivery</label>
+        </div>
+        <div class="flex items-center">
+          <input
+            type="radio"
+            id="paymentCheque"
+            formControlName="payment"
+            value="Cheque"
+            class="mr-2 leading-tight text-slate-700 checked:bg-slate-50 p-4"
+          />
+          <label for="paymentCheque" class="text-slate-200 text-sm">Cheque</label>
+        </div>
+        <div *ngIf="checkoutForm.get('payment')?.invalid && (checkoutForm.get('payment')?.dirty || checkoutForm.get('payment')?.touched)" class="text-red-500 text-sm mt-1">
+          <div *ngIf="checkoutForm.get('payment')?.errors?.['required']">Please select a payment method.</div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="flex items-center justify-between">
+      <button
+        type="submit"
+        [disabled]="checkoutForm.invalid"
+        class="bg-slate-600 hover:bg-slate-800 text-slate-200 py-2 px-4 rounded cursor-pointer"
+      >
+        Submit
+      </button>
+      <button
+        type="button"
+        (click)="handleCancel()"
+        class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

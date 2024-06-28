@@ -55,6 +55,7 @@ export class CartService {
   addToCart(productId: string, quantity: number): Observable<any> {
     const userId = this.getUserId();
     if (userId) {
+      console.log({userId, productId, quantity})
       return this.http.post(`${this.apiUrl}`, { userId, productId, quantity }).pipe(
         catchError(error => {
           console.error('Error adding to cart:', error);
@@ -128,11 +129,12 @@ export class CartService {
   }
 
   placeOrder(orderData: any): Observable<any> {
+    console.log(orderData)
     const userId = this.getUserId();
     if (!userId) {
       return throwError('User not authenticated.');
     }
-
+    console.log(userId)
     return this.getCart().pipe(
       switchMap(cartResponse => {
         if (!cartResponse || !cartResponse.products) {
@@ -140,18 +142,20 @@ export class CartService {
         }
 
         const cartItems = cartResponse.products;
+        console.log(cartItems)
         const totalAmount = this.getTotal(cartItems);
         const transformedOrderData = {
           user: userId,
+          name: orderData.name,
           address: orderData.address,
-          paymentDetails: orderData.paymentMethod,
-          products: cartItems.map((item: { productId: string, quantity: number }) => ({
-            product: item.productId,
+          paymentDetails: orderData.payment,
+          products: cartItems.map((item: { productId: any, quantity: number }) => ({
+            product: item.productId._id,
             quantity: item.quantity
           })),
           totalAmount: totalAmount
         };
-
+        console.log(transformedOrderData)
         return this.http.post(`${environment.apiUrl}/api/orders`, transformedOrderData).pipe(
           catchError(error => {
             console.error('Error placing order:', error);

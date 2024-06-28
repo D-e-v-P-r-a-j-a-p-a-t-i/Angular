@@ -1,27 +1,54 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms'; // Import FormBuilder and Validators
+import { CommonModule, Location } from '@angular/common';
 
 @Component({
   selector: 'app-checkout-form',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './checkout-form.component.html',
-  styleUrl: './checkout-form.component.css'
+  styleUrls: ['./checkout-form.component.css'],
 })
 export class CheckoutFormComponent {
   @Output() onSubmit = new EventEmitter<any>();
+  checkoutForm: FormGroup;
 
-  name: string = '';
-  address: string = '';
-  payment: string = 'COD';
+  constructor(private formBuilder: FormBuilder, private location: Location) {
+    this.checkoutForm = this.formBuilder.group({
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50),
+        ],
+      ],
+      address: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(100),
+        ],
+      ],
+      payment: ['Cash On Delivery', Validators.required],
+    });
+  }
 
   handleSubmit(): void {
-    const orderData = {
-      name: this.name,
-      address: this.address,
-      paymentMethod: this.payment,
-    };
-    console.log(orderData);
-    this.onSubmit.emit(orderData);
+    if (this.checkoutForm.valid) {
+      const orderData = this.checkoutForm.value;
+      console.log(orderData);
+      this.onSubmit.emit(orderData);
+    } 
+  }
+
+  handleCancel(): void {
+    this.location.back();
   }
 }

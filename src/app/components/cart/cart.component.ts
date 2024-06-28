@@ -69,17 +69,32 @@ export class CartComponent implements OnInit {
     const item = this.cartItems[index];
     if (quantity > 0) {
       item.quantity = quantity;
-      // Uncomment and implement addToCart in CartService if needed
-      // this.cartService.addToCart(item.productId, quantity).subscribe(
-      //   () => {
-      //     // Cart updated successfully
-      //   },
-      //   (error) => {
-      //     console.error('Error updating quantity:', error);
-      //   }
-      // );
+      this.cartService.addToCart(item.productId._id, quantity).subscribe(
+        () => {
+          // Cart updated successfully
+        },
+        (error) => {
+          console.error('Error updating quantity:', error);
+        }
+      );
     } else {
       this.removeItem(item._id);
+    }
+  }
+
+  incrementQuantity(index: number): void {
+    const item = this.cartItems[index];
+    if (item.quantity < 10) {
+      item.quantity++;
+      this.updateQuantity(index, item.quantity);
+    }
+  }
+
+  decrementQuantity(index: number): void {
+    const item = this.cartItems[index];
+    if (item.quantity > 1) {
+      item.quantity--;
+      this.updateQuantity(index, item.quantity);
     }
   }
 
